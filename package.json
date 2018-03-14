@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "eventsource-polyfill": "^0.9.6",
+    "file-loader": "^1.1.11",
     "normalize.css": "^7.0.0"
   }
 }
