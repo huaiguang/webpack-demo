@@ -26,6 +26,7 @@ const plugins = [
 ]
 
 module.exports = (options = {}) => ({
+  mode: 'development',
   entry: entries,
   output: {
     path: path.resolve(__dirname, '../dist/'),

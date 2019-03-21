@@ -18,6 +18,7 @@ const plugins = [
 ]
 
 module.exports = require('./webpack.conf.base')({
+  mode: 'development',
   entry: getEntriesWithHMR(
     path.resolve(__dirname, '../src/*/main.js')
   ),

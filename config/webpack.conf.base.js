@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 module.exports = options => ({
+  mode: options.mode,
   entry: options.entry,
   output: Object.assign(
     {
@@ -13,53 +14,37 @@ module.exports = options => ({
   module: {
     rules: [
       {
-        resource: {
-          test: /\.js$/,
-          include: [path.resolve(__dirname, '../src')]
-        },
-        use: [
-          {
-            loader: 'babel-loader'
-          }
-        ]
+        test: /\.js$/,
+        include: [path.resolve(__dirname, '../src')],
+        use: {
+          loader: 'babel-loader'
+        }
       },
       {
-        resource: {
-          test: /\.json$/
-        },
-        use: [
-          {
-            loader: 'json-loader'
-          }
-        ]
+        test: /\.json$/,
+        use: {
+          loader: 'json-loader'
+        }
       },
       {
-        resource: {
-          test: /\.(png|jpe?g|gif|svg)(\?.*)?$/
-        },
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1000,
-              name: 'static/images/[name].[hash:7].[ext]'
-            }
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 1000,
+            name: 'static/images/[name].[hash:7].[ext]'
           }
-        ]
+        }
       },
       {
-        resource: {
-          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/
-        },
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1000,
-              name: 'static/fonts/[name].[hash:7].[ext]'
-            }
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 1000,
+            name: 'static/fonts/[name].[hash:7].[ext]'
           }
-        ]
+        }
       }
     ].concat(options.module ? options.module.rules : [])
   },

@@ -19,17 +19,11 @@ const ExtractCSS = new ExtractTextPlugin({
 })
 
 const plugins = [
-  ExtractCSS,
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-      drop_debugger: true,
-      drop_console: true
-    }
-  })
+  ExtractCSS
 ]
 
 module.exports = require('./webpack.conf.base')({
+  mode: 'production',
   entry: getEntries('./src/*/main.js'),
   output: {
     filename: 'js/[name].[chunkhash:7].js',
