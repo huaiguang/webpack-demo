@@ -1,4 +1,4 @@
-# webpack@3.x
+# webpack@4.x
 > learn to use webpack to build my own website
 
 ## es6

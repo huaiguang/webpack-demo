@@ -1,7 +1,7 @@
 {
-  "name": "webpack-restarter",
+  "name": "webpack-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "common webpack configuration",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist/",
@@ -17,11 +17,11 @@
     "postcss",
     "eslint"
   ],
-  "author": "chenjiaxin",
+  "author": "Carlos <1483655267@qq.com>",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git@github.com:huaiguang/webpack-restarter.git"
+    "url": "git@github.com:huaiguang/webpack-demo.git"
   },
   "license": "MIT",
   "devDependencies": {
