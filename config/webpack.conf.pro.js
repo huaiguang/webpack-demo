@@ -1,6 +1,4 @@
 const { resolve, join } = require('path')
-const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const glob = require('glob')
 const htmlHandler = require('./html-handler')
 
@@ -13,13 +11,13 @@ function getEntries(globPath) {
   return entries
 }
 
-const ExtractCSS = new ExtractTextPlugin({
-  filename: 'css/[name].[contenthash:7].css',
-  allChunks: true
-})
+// const ExtractCSS = new ExtractTextPlugin({
+//   filename: 'css/[name].[contenthash:7].css',
+//   allChunks: true
+// })
 
 const plugins = [
-  ExtractCSS
+  // ExtractCSS
 ]
 
 module.exports = require('./webpack.conf.base')({
@@ -37,34 +35,40 @@ module.exports = require('./webpack.conf.base')({
             return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
           }
         },
-        use: ExtractCSS.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true
-              }
-            }
-          ]
-        })
+        use: [
+          { loader: 'css-loader' }
+        ]
+        // use: ExtractCSS.extract({
+        //   use: [
+        //     {
+        //       loader: 'css-loader',
+        //       options: {
+        //         minimize: true
+        //       }
+        //     }
+        //   ]
+        // })
       },
       {
         resource: {
           test: /\.module\.css$/
         },
-        use: ExtractCSS.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true,
-                modules: true,
-                camelCase: true,
-                localIdentName: '[local]--[hash:base64:5]'
-              }
-            }
-          ]
-        })
+        use: [
+          { loader: 'css-loader' }
+        ]
+        // use: ExtractCSS.extract({
+        //   use: [
+        //     {
+        //       loader: 'css-loader',
+        //       options: {
+        //         minimize: true,
+        //         modules: true,
+        //         camelCase: true,
+        //         localIdentName: '[local]--[hash:base64:5]'
+        //       }
+        //     }
+        //   ]
+        // })
       }
     ]
   },

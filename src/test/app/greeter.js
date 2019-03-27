@@ -1,6 +1,6 @@
 import greetings from '../data/greetings.json';
 
-module.exports = function() {
+export default function() {
   var Greeter = document.createElement('div');
   Greeter.textContent = greetings.greetText;
   return Greeter;

@@ -1,4 +1,4 @@
-var Greeter = require('./app/Greeter.js');
 import 'normalize.css';
+import Greeter from './app/Greeter';
 
 document.getElementById('root').appendChild(Greeter());
