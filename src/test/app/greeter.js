@@ -1,4 +1,4 @@
-var greetings = require('../data/greetings.json');
+import greetings from '../data/greetings.json';
 
 module.exports = function() {
   var Greeter = document.createElement('div');
