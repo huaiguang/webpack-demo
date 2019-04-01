@@ -1,9 +1,9 @@
 require('shelljs/global')
 const fs = require('fs')
 const path = require('path')
-const ora = require('ora')
 const webpack = require('webpack')
 const webpackConfig = require('./webpack.conf.pro')
+const ora = require('ora')
 
 const spinner = ora('开始构建...')
 spinner.start()
@@ -25,6 +25,6 @@ webpack(webpackConfig, (err, stats) => {
     chunkModules: false  // 去除包里内置模块的信息
   }) + '\n')
   
-  const STATS_JSON_PATH = path.resolve(__dirname, 'debug/stats.json')
-  fs.writeFileSync(STATS_JSON_PATH, JSON.stringify(stats.toJson('verbose')))
+  // const STATS_JSON_PATH = path.resolve(__dirname, 'debug/stats.json')
+  // fs.writeFileSync(STATS_JSON_PATH, JSON.stringify(stats.toJson('verbose')))
 })

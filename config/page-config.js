@@ -1,11 +1,11 @@
 const pages = [{
-  path: 'test',
-  name: 'test',
-  title: '测试|test'
+  path: 'website',
+  name: 'index',
+  title: '官网|index'
 },{
-  path: "test",
-  name: "test0",
-  title: "测试|test0"
+  path: 'website',
+  name: 'about',
+  title: '官网|about'
 }]
 
 module.exports = pages

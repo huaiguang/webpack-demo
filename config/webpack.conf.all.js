@@ -1,8 +1,8 @@
-const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path')
-const htmlHandler = require('./html-handler')
 const glob = require('glob')
+const webpack = require('webpack')
+const htmlHandler = require('./html-handler')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 // globPath是以root为根路径的，因此只有一个'./'
 function getEntries(globPath) {
@@ -14,39 +14,56 @@ function getEntries(globPath) {
   return entries
 }
 
-const entries = getEntries('./src/*/main.js')
-
 // plugins
-const ExtractCss = new ExtractTextPlugin({
-    filename: "css/common.css"
-  })
+const ExtractCSS = new MiniCssExtractPlugin({
+  filename: "./css/[name].[chunkhash:7].css",
+  chunkFilename: "./css/[id].[chunkhash:7].css"
+})
 
 const plugins = [
-  ExtractCss
+  ExtractCSS
 ]
 
 module.exports = (options = {}) => ({
   mode: 'development',
-  entry: entries,
+  entry: getEntries('./src/*/main.js'),
   output: {
     path: path.resolve(__dirname, '../dist/'),
-    filename: 'js/[name].bundle.js'
+    publicPath: '/',
+    filename: 'js/[name].bundle.js',
+    chunkFilename: 'js/[id].[chunkhash:7].js'
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
+        test: '/\.css$/',
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
+          "css-loader"
+        ]
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          options.mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ]
       },
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, 'src/app/'),
-        exclude: path.resolve(__dirname, 'node_modules/'),
-        loader: 'babel-loader'
-      }
+        include: path.resolve(__dirname, '../src'),
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
     ]
   },
   // plugins

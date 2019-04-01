@@ -1,97 +1,36 @@
-const { resolve, join } = require('path')
-const glob = require('glob')
-const htmlHandler = require('./html-handler')
-
-function getEntries(globPath) {
-  const entries = {}
-  glob.sync(globPath).forEach(entry => {
-    const tmp = entry.split('/').splice(-2)
-    entries[tmp[0]] = ['eventsource-polyfill', entry]
-  })
-  return entries
-}
-
-// const ExtractCSS = new ExtractTextPlugin({
-//   filename: 'css/[name].[contenthash:7].css',
-//   allChunks: true
-// })
-
-const plugins = [
-  // ExtractCSS
-]
+const path = require('path')
 
 module.exports = require('./webpack.conf.base')({
   mode: 'production',
-  entry: getEntries('./src/*/main.js'),
-  output: {
-    filename: 'js/[name].[chunkhash:7].js',
-    chunkFilename: 'js/[id].[chunkhash:7].js'
-  },
-  module: {
-    rules: [
-      {
-        resource: {
-          test(filePath) {
-            return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
-          }
+  plugins: [],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'common',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
         },
-        use: [
-          { loader: 'css-loader' }
-        ]
-        // use: ExtractCSS.extract({
-        //   use: [
-        //     {
-        //       loader: 'css-loader',
-        //       options: {
-        //         minimize: true
-        //       }
-        //     }
-        //   ]
-        // })
-      },
-      {
-        resource: {
-          test: /\.module\.css$/
+        // 注意: priority属性
+        // 其次: 打包业务中公共代码
+        common: {
+          name: "common",
+          chunks: "all",
+          minSize: 1,
+          priority: 0,
+          minChunks: 1
         },
-        use: [
-          { loader: 'css-loader' }
-        ]
-        // use: ExtractCSS.extract({
-        //   use: [
-        //     {
-        //       loader: 'css-loader',
-        //       options: {
-        //         minimize: true,
-        //         modules: true,
-        //         camelCase: true,
-        //         localIdentName: '[local]--[hash:base64:5]'
-        //       }
-        //     }
-        //   ]
-        // })
+        // 首先: 打包node_modules中的文件
+        vendor: {
+          name: "vendor",
+          test: /node_modules/,
+          chunks: "all",
+          priority: 10,
+          minChunks: 1,
+          // enforce: true
+        }
       }
-    ]
-  },
-  plugins: plugins.concat(
-    htmlHandler({
-      template: resolve(__dirname, '../public/temp.html'),
-      chunks: ['vendor', 'manifest'],
-      // If you use multiple chunks with commonChunksPlugin, this is the necessary
-      // setting in order to put webpack runtime code (manifest) in front of
-      // all chunks
-      chunksSortMode: 'dependency',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-      }
-    })
-  )
+    }
+  }
 })
