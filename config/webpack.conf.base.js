@@ -107,6 +107,7 @@ module.exports = options => ({
     ].concat(options.module ? options.module.rules : [])
   },
   plugins: options.plugins.concat(plugins),
+  optimization: options.optimization,
   resolve: {
     alias: {
       src: path.resolve(__dirname, '../src'),
