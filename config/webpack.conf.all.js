@@ -17,7 +17,7 @@ function getEntries(globPath) {
 // plugins
 const ExtractCSS = new MiniCssExtractPlugin({
   filename: "./css/[name].[chunkhash:7].css",
-  chunkFilename: "./css/[id].[chunkhash:7].css"
+  chunkFilename: "./css/[name].chunk.css"
 })
 
 const plugins = [
@@ -31,7 +31,7 @@ module.exports = (options = {}) => ({
     path: path.resolve(__dirname, '../dist/'),
     publicPath: '/',
     filename: 'js/[name].bundle.js',
-    chunkFilename: 'js/[id].[chunkhash:7].js'
+    chunkFilename: 'js/[name].chunk.js'
   },
   module: {
     rules: [
@@ -70,6 +70,7 @@ module.exports = (options = {}) => ({
   plugins: plugins.concat(
     htmlHandler({
       template: path.resolve(__dirname, '../public/temp.html'),
+      chunks: ['common', 'vendor'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -84,6 +85,36 @@ module.exports = (options = {}) => ({
       }
     })
   ),
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'common',
+          test: /\.css$/,
+          chunks: 'initial',
+          enforce: true
+        },
+        // 注意: priority属性
+        // 其次: 打包业务中公共代码
+        common: {
+          name: "common",
+          chunks: "initial",
+          minSize: 1,
+          priority: 0,
+          minChunks: 1
+        },
+        // 首先: 打包node_modules中的文件
+        vendor: {
+          name: "vendor",
+          test: /node_modules/,
+          chunks: "initial",
+          priority: 10,
+          minChunks: 1,
+          // enforce: true
+        }
+      }
+    }
+  },
   // devServer
   devServer: {
     contentBase: path.resolve(__dirname, '../dist'),

@@ -15,7 +15,7 @@ function getEntries(globPath) {
 
 const ExtractCSS = new MiniCssExtractPlugin({
   filename: "./css/[name].[hash:7].css",
-  chunkFilename: "./css/[id].[hash:7].css"
+  chunkFilename: "./css/[name].[hash:7].css"
 })
 
 const plugins = [
@@ -51,7 +51,7 @@ module.exports = options => ({
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
     filename: 'js/[name].[hash:7].js',
-    chunkFilename: 'js/[id].[hash:7].js'
+    chunkFilename: 'js/[name].[hash:7].js'
   },
   module: {
     rules: [

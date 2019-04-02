@@ -9,14 +9,14 @@ module.exports = require('./webpack.conf.base')({
         styles: {
           name: 'common',
           test: /\.css$/,
-          chunks: 'all',
+          chunks: 'initial',
           enforce: true
         },
         // 注意: priority属性
         // 其次: 打包业务中公共代码
         common: {
           name: "common",
-          chunks: "all",
+          chunks: "initial",
           minSize: 1,
           priority: 0,
           minChunks: 1
@@ -25,7 +25,7 @@ module.exports = require('./webpack.conf.base')({
         vendor: {
           name: "vendor",
           test: /node_modules/,
-          chunks: "all",
+          chunks: "initial",
           priority: 10,
           minChunks: 1,
           // enforce: true

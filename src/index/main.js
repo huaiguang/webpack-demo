@@ -5,4 +5,4 @@ import _ from 'lodash';
 
 // document.getElementById('root').appendChild(Greeter());
 $('#root').append(Greeter());
-console.log("At page 'index' :", _);
+console.log('index.html');
