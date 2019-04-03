@@ -28,7 +28,7 @@ const plugins = [
   new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /zh-cn/),
   new webpack.NamedModulesPlugin()
 ].concat(htmlHandler({
-  chunks: ['vendor', 'common'],
+  chunks: ['manifest', 'vendor', 'common'],
   chunksSortMode: 'auto',
   minify: {
     removeComments: true,

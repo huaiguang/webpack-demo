@@ -2,6 +2,9 @@ module.exports = require('./webpack.conf.base')({
   mode: 'production',
   plugins: [],
   optimization: {
+    runtimeChunk: {
+      name: 'manifest'
+    },
     splitChunks: {
       cacheGroups: {
         styles: {
