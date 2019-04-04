@@ -1,6 +1,10 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = require('./webpack.conf.base')({
   mode: 'production',
-  plugins: [],
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ],
   optimization: {
     runtimeChunk: {
       name: 'manifest'
