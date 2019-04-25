@@ -1,3 +1,3 @@
 export const greetings = {
-  "greetText": "Hi there and greetings from JSON!"
-}
+    'greetText': 'Hi there and greetings from JSON!'
+};
